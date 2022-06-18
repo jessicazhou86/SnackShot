@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from '../styles/Home.module.css'
 import Nav from '../components/Nav';
 import PostEntry from '../components/PostEntry';
 
@@ -28,13 +27,7 @@ const Home: NextPage = () => {
   ];
 
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>🤳🏼 SnackShot 🍣</title>
-        <meta name="keywords" content="food, restaurants, recommendations, friends" />
-        <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"></link>
-      </Head>
-      <Nav></Nav>
+    <div>
       {posts.map((post, i) => <PostEntry key={i} post={post}></PostEntry>)}
     </div>
   )

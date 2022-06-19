@@ -5,13 +5,13 @@ import Head from 'next/head'
 export default function Layout({ children }) {
   return (
     <>
-      <Head>
+      <Head >
         <title>🤳🏼 SnackShot 🍣</title>
         <meta name="keywords" content="food, restaurants, recommendations, friends" />
         <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"></link>
       </Head>
       <div className={styles.container}>
-        <Nav></Nav>
+        <Nav ></Nav>
         <main>{children}</main>
       </div>
     </>

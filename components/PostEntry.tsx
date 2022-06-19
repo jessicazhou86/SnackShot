@@ -11,28 +11,29 @@ import { useState } from 'react';
 import styles from '../styles/Stars.module.css';
 import ReactStars from 'react-stars';
 
-const ReactButton = styled.a`
-  margin: 2px;
-  padding: 10px;
-  float: right;
-  &:hover{
-    transform: scale(1.02);
-  }
-`;
-
-const HeartButton = styled(ReactButton)`
-  &:hover{
-    color: #F57575;
-  }
-  color: ${props => (props.liked ? ' #F57575' : 'none')}
-`;
-
 const PostContainer = styled.article`
   max-width: 80vh;
   margin: 2em auto;
   flex: 50%;
   padding: 1.5em;
-`;
+  `;
+
+  const ReactButton = styled.span`
+  margin: 2px;
+  padding: 10px;
+  float: right;3
+  &:hover{
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+  `;
+
+  const HeartButton = styled(ReactButton)`
+  &:hover{
+    color: #F57575;
+  }
+  color: ${props => (props.liked ? ' #F57575' : 'none')}
+  `;
 
 interface Props {
   post: PostObject;
@@ -41,6 +42,7 @@ interface Props {
 const PostEntry = (props : Props) => {
   const {post} = props;
   const [liked, setLiked] = useState(false);
+
 
   return (
     <PostContainer>
@@ -80,16 +82,10 @@ const PostEntry = (props : Props) => {
       ))}
        </Swiper>
       <HeartButton
-        href="#"
-        role="button"
-        className="contrast outline"
         liked={liked}
         onClick={() => {setLiked((prev) => !prev)}}
       ><FaHeart /></HeartButton>
       <ReactButton
-        href="#"
-        role="button"
-        className="contrast outline"
       ><FaRegCommentDots /></ReactButton>
       <h5>@{post.username}</h5>
       <span>{post.description}</span>

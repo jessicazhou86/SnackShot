@@ -24,8 +24,8 @@ const PostContainer = styled.article`
   float: right;3
   &:hover{
     transform: scale(1.2);
-    cursor: pointer;
   }
+  cursor: pointer;
   `;
 
   const HeartButton = styled(ReactButton)`

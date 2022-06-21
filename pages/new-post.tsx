@@ -1,16 +1,25 @@
 import type { NextPage } from 'next';
 import ReactStars from 'react-stars';
-import { SetStateAction, useState } from 'react';
+import { MouseEvent, SetStateAction, useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
+import { MdLocationPin } from 'react-icons/md';
+import { FiSearch } from 'react-icons/fi';
+// import Cors from 'cors';
 
+// const cors = Cors({
+//   methods: ['GET', 'HEAD'],
+// })
 
 const NewPost: NextPage = () => {
-  const [restaurantName, setRestaurantName] = useState('');
-  const [rating, setRating] = useState(0);
+  const [restaurantName, setRestaurantName] = useState<string>('');
+  const [rating, setRating] = useState<number>(0);
   const [photos, setPhotos] = useState<string[]>([]);
-  const [caption, setCaption] = useState('');
-  const [location, setLocation] = useState('');
+  const [caption, setCaption] = useState<string>('');
+  const [location, setLocation] = useState<string>('');
+  const [isMatch, setIsMatch] = useState<boolean>(false);
+  const [address, setAddress] = useState<string>('');
+  const [dollarSigns, setDollarSigns] = useState<string>('');
 
   const uploadImages = (e: { target: { files: (string | Blob)[]; }; }) => {
     const bodyFormData = new FormData();
@@ -24,11 +33,26 @@ const NewPost: NextPage = () => {
       .then((res) => { setPhotos([...photos, res.data.url]) });
   };
 
+  const getMatchingRestaurant = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+    e.preventDefault();
+    let newName = restaurantName.split(' ').join('-');
+    let newLocation = location.split(' ').join('-');
+    axios.get(`https://api.yelp.com/v3/businesses/search?term=${newName}&location=${newLocation}`, {
+      headers: {
+        "Authorization": "Bearer zo6J90F9HakhPibvxL4pTUUFjFVav9ixp8B1lj_f2MxrgrUTa3DySMUV5pj0kvCLUQPwGkzHd6mHsM3veqgQDVMjRtwF6ZhmBMQxyMM1cI6KLk878BmlErMnq42vYnYx",
+      }
+    })
+    .then((res) => {
+      console.log('result', res)
+      // set name, address, dollarSigns
+      // set isMatch to true so it will display
+    })
+  }
+
   return (
     <article>
+      <h3>Share a new food spot</h3>
       <form>
-        <h3>Share a new food spot</h3>
-
         <div className="grid">
           <label htmlFor="restaurantName">
             What&#39;s the place called?
@@ -39,7 +63,7 @@ const NewPost: NextPage = () => {
               placeholder="Restaurant name"
               required
               onChange={(e) => setRestaurantName(e.target.value)}
-            ></input>
+              ></input>
           </label>
           <label htmlFor="location">
             Where is it?
@@ -50,10 +74,25 @@ const NewPost: NextPage = () => {
               placeholder="City name"
               required
               onChange={(e) => setLocation(e.target.value)}
-            ></input>
+              ></input>
+            <button
+              onClick={(e) => getMatchingRestaurant(e)}
+              style={{
+                backgroundColor: "#596B78",
+                width: "auto",
+                border: "none",
+                padding: ".5em"
+              }}
+            ><FiSearch />  Search</button>
           </label>
         </div>
-
+      {isMatch &&
+        <div>
+          <strong><MdLocationPin /> Bavel $$$</strong>
+          <p>500 Mateo St, <br></br> Los Angeles, CA 90013</p>
+        </div>}
+      </form>
+      <form>
         <div style={{padding: "20px 0"}}>
           Soooo... how was it?
           <ReactStars

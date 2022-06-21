@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { FaRegCommentDots, FaHeart } from 'react-icons/fa';
 import { MdLocationPin } from 'react-icons/md';
-import { PostObject } from '../pages';
+import { PostObject } from '../data';
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -12,7 +12,7 @@ import styles from '../styles/Stars.module.css';
 import ReactStars from 'react-stars';
 
 const PostContainer = styled.article`
-  max-width: 80vh;
+  max-width: 35em;
   margin: 2em auto;
   flex: 50%;
   padding: 1.5em;
@@ -35,14 +35,17 @@ const PostContainer = styled.article`
   color: ${props => (props.liked ? ' #F57575' : 'none')}
   `;
 
+
 interface Props {
   post: PostObject;
+  modalInfo: PostObject;
 }
 
 const PostEntry = (props : Props) => {
-  const {post} = props;
+  let {post, modalInfo} = props;
   const [liked, setLiked] = useState(false);
 
+  post = post || modalInfo;
 
   return (
     <PostContainer>
@@ -88,7 +91,7 @@ const PostEntry = (props : Props) => {
       <ReactButton
       ><FaRegCommentDots /></ReactButton>
       <h5>@{post.username}</h5>
-      <span>{post.description}</span>
+      <span>{post.caption}</span>
     </PostContainer>
   )
 }

@@ -4,10 +4,11 @@ import PostEntry from './PostEntry';
 interface Props {
   showModal: boolean,
   setShowModal: Dispatch<SetStateAction<boolean>>;
+  modalInfo: object,
 }
 
 const PhotoModal = (props: Props) => {
-  const {setShowModal, showModal} = props;
+  const {setShowModal, showModal, modalInfo} = props;
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && showModal) {
@@ -26,8 +27,7 @@ const PhotoModal = (props: Props) => {
             onClick={() => {setShowModal(false)}}
           ></a>
         </header>
-        <h2>this is where all the restaurant info that the user inputted will go</h2>
-        {/* <PostEntry></PostEntry> */}
+        <PostEntry post={modalInfo}></PostEntry>
       </article>
     </dialog>
   )

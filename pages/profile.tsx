@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import React, { useState } from 'react';
 import PhotoModal from '../components/PhotoModal';
 import posts from '../data';
+import { FaHeart } from 'react-icons/fa';
+
 
  const PostContainer = styled.article`
   display: flex;
@@ -22,6 +24,19 @@ const ImagePost = styled.div`
 }
 `;
 
+const ProfileBar = styled.article`
+padding: .5em;
+display: flex;
+margin-top: 0;
+`;
+
+const BarItem = styled.div`
+border: dotten blue;s
+width: 25%;
+text-align: center;
+margin: auto;
+`;
+
 const Profile: NextPage = () => {
 
   const [showModal, setShowModal] = useState(false);
@@ -29,6 +44,31 @@ const Profile: NextPage = () => {
 
   return (
     <>
+    <ProfileBar>
+      <BarItem>
+        <Image
+          src="https://i.ibb.co/CwCCjKk/Screen-Shot-2022-06-20-at-7-36-25-PM.png"
+          alt="profile picture"
+          width={100}
+          height={100}
+          objectFit="cover"
+          style={{borderRadius: "50%"}}
+        ></Image>
+        <div>@jessicazhou</div>
+      </BarItem>
+      <BarItem>
+        <div><strong>{posts.length}</strong></div>
+        <div>Posts</div>
+      </BarItem>
+      <BarItem>
+        <div><strong>15</strong></div>
+        <div>Friends</div>
+      </BarItem>
+      <BarItem>
+        <div><FaHeart/></div>
+        <div>Saved</div>
+      </BarItem>
+    </ProfileBar>
       <PostContainer >
         {posts.map((post) => {
           return (

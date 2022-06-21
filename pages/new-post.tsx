@@ -5,20 +5,16 @@ import axios from 'axios';
 import Image from 'next/image';
 import { MdLocationPin } from 'react-icons/md';
 import { FiSearch } from 'react-icons/fi';
-// import Cors from 'cors';
-
-// const cors = Cors({
-//   methods: ['GET', 'HEAD'],
-// })
 
 const NewPost: NextPage = () => {
   const [restaurantName, setRestaurantName] = useState<string>('');
   const [rating, setRating] = useState<number>(0);
   const [photos, setPhotos] = useState<string[]>([]);
   const [caption, setCaption] = useState<string>('');
+  const [restaurant, setRestaurant] = useState<string>('');
   const [location, setLocation] = useState<string>('');
   const [isMatch, setIsMatch] = useState<boolean>(false);
-  const [address, setAddress] = useState<string>('');
+  const [address, setAddress] = useState<string[]>([]);
   const [dollarSigns, setDollarSigns] = useState<string>('');
 
   const uploadImages = (e: { target: { files: (string | Blob)[]; }; }) => {
@@ -37,16 +33,14 @@ const NewPost: NextPage = () => {
     e.preventDefault();
     let newName = restaurantName.split(' ').join('-');
     let newLocation = location.split(' ').join('-');
-    axios.get(`https://api.yelp.com/v3/businesses/search?term=${newName}&location=${newLocation}`, {
-      headers: {
-        "Authorization": "Bearer zo6J90F9HakhPibvxL4pTUUFjFVav9ixp8B1lj_f2MxrgrUTa3DySMUV5pj0kvCLUQPwGkzHd6mHsM3veqgQDVMjRtwF6ZhmBMQxyMM1cI6KLk878BmlErMnq42vYnYx",
-      }
-    })
+    axios.get(`/api/yelp/${newName}/${newLocation}`)
     .then((res) => {
-      console.log('result', res)
-      // set name, address, dollarSigns
-      // set isMatch to true so it will display
-    })
+      const match = res.data.businesses[0];
+      setRestaurant(match.name);
+      setAddress(match.location.display_address);
+      setDollarSigns(match.price);
+      setIsMatch(true);
+    });
   }
 
   return (
@@ -87,9 +81,9 @@ const NewPost: NextPage = () => {
           </label>
         </div>
       {isMatch &&
-        <div>
-          <strong><MdLocationPin /> Bavel $$$</strong>
-          <p>500 Mateo St, <br></br> Los Angeles, CA 90013</p>
+        <div style={{border: "solid grey 1px", padding: ".5em"}}>
+          <strong><MdLocationPin /> {restaurant} {dollarSigns}</strong>
+          <div> {address.map((each, i) => <div key={i}>{each}</div>)}</div>
         </div>}
       </form>
       <form>

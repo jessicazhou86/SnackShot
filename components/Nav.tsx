@@ -2,13 +2,25 @@ import { AiFillHome } from 'react-icons/ai';
 import { MdPhotoCamera } from 'react-icons/md';
 import { BsFillPersonFill } from 'react-icons/bs';
 import Link from 'next/link';
+import styled from 'styled-components';
 
+const NavBar = styled.nav`
+position: fixed;
+z-index: 99;
+width: 100%;
+background-color: #090B0D;
+height: 5.5em;
+padding: 1em;
+float: left;#
+top: 0;
+left: 0;
+`;
 
 const Nav = () => {
   return (
-    <nav>
+    <NavBar>
       <ul>
-        <li><h2>SnackShot</h2></li>
+        <li><h2 style={{margin: "1em"}}>SnackShot</h2></li>
       </ul>
       <ul>
         <Link href='/'>
@@ -21,7 +33,7 @@ const Nav = () => {
          <li><a href="#" role="button"><BsFillPersonFill size={30}/></a></li>
         </Link>
       </ul>
-    </nav>
+    </NavBar>
   )
 }
 

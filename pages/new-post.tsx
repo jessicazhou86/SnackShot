@@ -5,6 +5,9 @@ import axios from 'axios';
 import Image from 'next/image';
 import { MdLocationPin } from 'react-icons/md';
 import { FiSearch } from 'react-icons/fi';
+import { app, db } from '../src/firebase';
+import { collection, addDoc } from 'firebase/firestore';
+
 
 const NewPost: NextPage = () => {
   const [restaurantName, setRestaurantName] = useState<string>('');
@@ -43,8 +46,14 @@ const NewPost: NextPage = () => {
     });
   }
 
+  const dbInstance = collection(db, 'posts');
+
   const postReview = () => {
     // send info to DB w/ timestamp
+    addDoc(dbInstance, {
+      time: new Date(),
+
+    })
   }
 
   return (

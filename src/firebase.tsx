@@ -1,18 +1,25 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+// import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore } from "firebase/firestore"
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+// // detect auth state
+// onAuthStateChanged(auth, user => {
+//   if (user !== null) {
+//     console.log('logged in!');
+//   } else {
+//     console.log('No user');
+//   }
+// })
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBbtRMNtTzdEpIKmXHPQMPy8LrwvO5ppf8",
-  authDomain: "snackshot-7144b.firebaseapp.com",
-  projectId: "snackshot-7144b",
-  storageBucket: "snackshot-7144b.appspot.com",
-  messagingSenderId: "588798460475",
-  appId: "1:588798460475:web:ca71d4447cfb84b01e921e"
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID
 };
 
 // Initialize Firebase

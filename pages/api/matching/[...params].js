@@ -10,7 +10,6 @@ export default function handler(req, res) {
     }
   })
   .then((result) => {
-    console.log('result', result.data);
     res.status(200).send(result.data);
   });
 }

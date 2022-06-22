@@ -12,6 +12,7 @@ export default function Layout({ children }) {
       </Head>
       <div className={styles.container}>
         <Nav ></Nav>
+        <div style={{height: "5em"}}></div>
         <main>{children}</main>
       </div>
     </>

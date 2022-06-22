@@ -10,11 +10,11 @@ interface Props {
 const PhotoModal = (props: Props) => {
   const {setShowModal, showModal, modalInfo} = props;
 
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && showModal) {
-      setShowModal(false);
-    }
-  });
+  // document.addEventListener('keydown', e => {
+  //   if (e.key === 'Escape' && showModal) {
+  //     setShowModal(false);
+  //   }
+  // });
 
   return (
     <dialog open>

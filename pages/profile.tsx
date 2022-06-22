@@ -31,7 +31,6 @@ margin-top: 0;
 `;
 
 const BarItem = styled.div`
-border: dotten blue;s
 width: 25%;
 text-align: center;
 margin: auto;
@@ -42,27 +41,50 @@ const Profile: NextPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalInfo, setModalInfo] = useState({});
 
+  // sample user
+  const user = {
+    user_id: 1,
+    username: 'jessicazhou',
+    profile_pic: "https://i.ibb.co/CwCCjKk/Screen-Shot-2022-06-20-at-7-36-25-PM.png",
+    friends: ['meowcakes', 'birdsrnotreal', 'cashmoney'],
+    saved_posts: [],
+    my_posts: posts
+  }
+
   return (
     <>
     <ProfileBar>
       <BarItem>
         <Image
-          src="https://i.ibb.co/CwCCjKk/Screen-Shot-2022-06-20-at-7-36-25-PM.png"
+          src={user.profile_pic}
           alt="profile picture"
           width={100}
           height={100}
           objectFit="cover"
           style={{borderRadius: "50%"}}
         ></Image>
-        <div>@jessicazhou</div>
+        <div>@{user.username}</div>
       </BarItem>
       <BarItem>
         <div><strong>{posts.length}</strong></div>
         <div>Posts</div>
       </BarItem>
-      <BarItem>
-        <div><strong>15</strong></div>
-        <div>Friends</div>
+      <BarItem style={{marginTop: "2.6em"}}>
+        <div><strong>{user.friends.length}</strong></div>
+        <details role="list">
+          <summary
+            aria-haspopup="listbox"
+            style={{
+              border: "none",
+              color: "#bbc6ce",
+              backgroundColor: "#131e26",
+              padding: "0",
+              marginLeft: "1.5em"
+            }}>Friends</summary>
+          <ul role="listbox">
+            {user.friends.map((friend, i) => <li key={i}><a>@{friend}</a></li>)}
+          </ul>
+        </details>
       </BarItem>
       <BarItem>
         <div><FaHeart/></div>
@@ -70,7 +92,7 @@ const Profile: NextPage = () => {
       </BarItem>
     </ProfileBar>
       <PostContainer >
-        {posts.map((post) => {
+        {user.my_posts.map((post) => {
           return (
             <ImagePost key={post.post_id}>
               <Image
@@ -83,9 +105,9 @@ const Profile: NextPage = () => {
                 id={post.post_id}
                 onClick={(e) => {
                   let id =  Number(e.target.getAttribute('id'));
-                  for (var i = 0; i < posts.length; i++) {
-                    if (posts[i].post_id === id) {
-                      setModalInfo(posts[i]);
+                  for (var i = 0; i < user.my_posts.length; i++) {
+                    if (user.my_posts[i].post_id === id) {
+                      setModalInfo(user.my_posts[i]);
                       break;
                     }
                   }

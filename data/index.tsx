@@ -1,6 +1,7 @@
 export interface PostObject {
   post_id: number;
   restaurant_name: string;
+  yelp_restaurant_id: string;
   timestamp: string;
   location: string;
   photo_urls: string[];
@@ -13,6 +14,7 @@ const posts : PostObject[] = [
   {
    post_id: 1,
    restaurant_name: 'Hatch',
+   yelp_restaurant_id: 'eUkd8atkJe4fkKGcD5QZ1A',
    timestamp: 'March 20, 2022 | 5:50pm',
    location: 'Los Angeles, CA',
    photo_urls: [
@@ -27,6 +29,7 @@ const posts : PostObject[] = [
   {
    post_id: 2,
    restaurant_name: "Boathouse at Hendry's Beach",
+   yelp_restaurant_id: 'skY6r8WAkYqpV7_TxNm23w',
    timestamp: 'September 1, 2021 | 4:20pm',
    location: 'Santa Barbara, CA',
    photo_urls: [
@@ -40,6 +43,7 @@ const posts : PostObject[] = [
   {
    post_id: 3,
    restaurant_name: 'Bavel',
+   yelp_restaurant_id: 'wo3wnj3pMSOPkzqpvbey-g',
    timestamp: 'September 9, 2021 | 5:26pm',
    location: 'Los Angeles, CA',
    photo_urls: [
@@ -55,6 +59,7 @@ const posts : PostObject[] = [
   {
    post_id: 4,
    restaurant_name: "Crab House",
+   yelp_restaurant_id: 'sHMQqLZqaMCZa5ICqpGiNg',
    timestamp: 'October 16, 2021 | 2:27pm',
    location: 'Los Angeles, CA',
    photo_urls: [
@@ -68,6 +73,7 @@ const posts : PostObject[] = [
   {
    post_id: 5,
    restaurant_name: "Di Fiora",
+   yelp_restaurant_id: 'UMWigSBp30eQtgMdW3h5Rg',
    timestamp: 'December 4, 2021 | 2:02pm',
    location: 'Seattle, WA',
    photo_urls: [
@@ -83,6 +89,7 @@ const posts : PostObject[] = [
   {
     post_id: 6,
     restaurant_name: "Ramen Nagi",
+    yelp_restaurant_id: 'Rwv9F0y6r0MxaojuSRWgCQ',
     timestamp: 'April 7, 2022 | 2:05pm',
     location: 'Century City, CA',
     photo_urls: [
@@ -98,6 +105,7 @@ const posts : PostObject[] = [
    {
     post_id: 7,
     restaurant_name: "Nep Cafe",
+    yelp_restaurant_id: 'hIliM0HbkN9EZESaG6voeg',
     timestamp: 'Marach 6, 2022 | 2:05pm',
     location: 'Fountain Valley, CA',
     photo_urls: [
@@ -113,6 +121,7 @@ const posts : PostObject[] = [
    {
     post_id: 8,
     restaurant_name: "Bacari Silverlake",
+    yelp_restaurant_id: 'sXdOBghhw-ZU9S-1HxVZVA',
     timestamp: 'October 9, 2021 | 8:14pm',
     location: 'Silverlake, CA',
     photo_urls: [
@@ -128,6 +137,7 @@ const posts : PostObject[] = [
    {
     post_id: 9,
     restaurant_name: "Von's 1000 Spirits",
+    yelp_restaurant_id: 'Lw7NmZ3j-WEye97ywEmkXQ',
     timestamp: 'December 10, 2021 | 5:46pm',
     location: 'Seattle, WA',
     photo_urls: [

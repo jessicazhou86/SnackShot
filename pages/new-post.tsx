@@ -33,7 +33,7 @@ const NewPost: NextPage = () => {
     e.preventDefault();
     let newName = restaurantName.split(' ').join('-');
     let newLocation = location.split(' ').join('-');
-    axios.get(`/api/yelp/${newName}/${newLocation}`)
+    axios.get(`/api/matching/${newName}/${newLocation}`)
     .then((res) => {
       const match = res.data.businesses[0];
       setRestaurant(match.name);
@@ -41,6 +41,10 @@ const NewPost: NextPage = () => {
       setDollarSigns(match.price);
       setIsMatch(true);
     });
+  }
+
+  const postReview = () => {
+    // send info to DB w/ timestamp
   }
 
   return (
@@ -133,7 +137,7 @@ const NewPost: NextPage = () => {
           ></input>
         </label>
 
-        <button>Post</button>
+        <button onClick={postReview}>Post</button>
       </form>
     </article>
   )

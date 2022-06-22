@@ -10,6 +10,8 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import styles from '../styles/Stars.module.css';
 import ReactStars from 'react-stars';
+import InfoModal from './InfoModal';
+import axios from 'axios';
 
 const PostContainer = styled.article`
   max-width: 35em;
@@ -44,55 +46,80 @@ interface Props {
 const PostEntry = (props : Props) => {
   let {post, modalInfo} = props;
   const [liked, setLiked] = useState(false);
+  const [infoModalOpen, setInfoModalOpen] = useState(false);
+  const [yelpData, setYelpData] = useState({});
 
   post = post || modalInfo;
 
+  const getYelpData = () => {
+    axios.get(`/api/info/${post.yelp_restaurant_id}`)
+    .then((res) => {
+      setYelpData(res.data);
+    });
+  }
+
   return (
-    <PostContainer>
-      <h3 style={{margin: ".5em"}}>{post.restaurant_name}</h3>
-      <ReactStars
-        count={5}
-        size={25}
-        color2={'#FFE255'}
-        value={post.rating}
-        edit={false}
-      />
-      <div style={{
-        width: "100%",
-        margin: ".5em",
-        textAlign: "right",
-        padding: "0 1em"
-      }}>
-        <MdLocationPin /> {post.location}, {post.timestamp}
-      </div>
-      <Swiper
-        navigation={true}
-        modules={[Navigation]}
-        speed={200}
-        spaceBetween={150}
-      >
-      {post.photo_urls.map((url : string, i : number) => (
-        <SwiperSlide key={i}>
-          <Image
-            src={url}
-            alt="sample photo"
-            width={800}
-            height={800}
-            objectFit="cover"
-            style={{borderRadius: "2%", margin: "auto"}}
+    <>
+      {infoModalOpen &&
+      <InfoModal
+        infoModalOpen={infoModalOpen}
+        setInfoModalOpen={setInfoModalOpen}
+        yelpData={yelpData}/>
+      }
+      <PostContainer>
+        <h3 style={{
+          margin: ".5em",
+          cursor: "pointer"
+          }}
+         onClick={() => {
+          setInfoModalOpen(true);
+          getYelpData();
+        }}
+        >{post.restaurant_name}</h3>
+        <ReactStars
+          count={5}
+          size={25}
+          color2={'#FFE255'}
+          value={post.rating}
+          edit={false}
         />
-        </SwiperSlide>
-      ))}
-       </Swiper>
-      <HeartButton
-        liked={liked}
-        onClick={() => {setLiked((prev) => !prev)}}
-      ><FaHeart /></HeartButton>
-      <ReactButton
-      ><FaRegCommentDots /></ReactButton>
-      <h5>@{post.username}</h5>
-      <span>{post.caption}</span>
-    </PostContainer>
+        <div style={{
+          width: "100%",
+          margin: ".5em",
+          textAlign: "right",
+          padding: "0 1em"
+        }}>
+          <MdLocationPin /> {post.location}, {post.timestamp}
+        </div>
+        <Swiper
+          navigation={true}
+          modules={[Navigation]}
+          speed={200}
+          spaceBetween={150}
+        >
+        {post.photo_urls.map((url : string, i : number) => (
+          <SwiperSlide key={i}>
+            <Image
+              src={url}
+              alt="sample photo"
+              width={800}
+              height={800}
+              objectFit="cover"
+              style={{borderRadius: "2%", margin: "auto"}}
+          />
+          </SwiperSlide>
+        ))}
+          </Swiper>
+        <HeartButton
+          liked={liked}
+          onClick={() => {setLiked((prev) => !prev)}}
+        ><FaHeart /></HeartButton>
+        <ReactButton
+        ><FaRegCommentDots /></ReactButton>
+        <h5>@{post.username}</h5>
+        <span>{post.caption}</span>
+      </PostContainer>
+    </>
   )
 }
 

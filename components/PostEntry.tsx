@@ -20,7 +20,7 @@ const PostContainer = styled.article`
   padding: 1.5em;
   `;
 
-  const ReactButton = styled.span`
+const ReactButton = styled.span`
   margin: 2px;
   padding: 10px;
   float: right;3
@@ -30,13 +30,31 @@ const PostContainer = styled.article`
   cursor: pointer;
   `;
 
-  const HeartButton = styled(ReactButton)`
+const HeartButton = styled(ReactButton)`
   &:hover{
     color: #F57575;
   }
   color: ${props => (props.liked ? ' #F57575' : 'none')}
   `;
 
+export interface DataObject {
+  name: string,
+  address: string,
+  phone: string,
+  price: string,
+  rating: number,
+  categories: string[],
+  review_count: number
+}
+
+export interface ReviewObject {
+  id: string,
+  url: string,
+  text: string,
+  rating: number,
+  time_created: string,
+  user: object,
+}
 
 interface Props {
   post: PostObject;
@@ -45,26 +63,39 @@ interface Props {
 
 const PostEntry = (props : Props) => {
   let {post, modalInfo} = props;
-  const [liked, setLiked] = useState(false);
-  const [infoModalOpen, setInfoModalOpen] = useState(false);
-  const [yelpData, setYelpData] = useState({});
+  const [liked, setLiked] = useState<boolean>(false);
+  const [infoModalOpen, setInfoModalOpen] = useState<boolean>(false);
+  const [yelpData, setYelpData] = useState<DataObject>(null);
+  const [reviews, setReviews] = useState(null);
 
   post = post || modalInfo;
 
   const getYelpData = () => {
     axios.get(`/api/info/${post.yelp_restaurant_id}`)
     .then((res) => {
-      setYelpData(res.data);
+      let info = res.data.info;
+      setYelpData({
+        name: info.name,
+        address: info.location.display_address.join(' '),
+        phone: info.display_phone,
+        price: info.price,
+        rating: info.rating,
+        categories: info.categories.map((each: object) => each.title),
+        review_count: info.review_count
+      });
+      setReviews(res.data.reviews.reviews);
     });
   }
 
   return (
     <>
-      {infoModalOpen &&
+      {infoModalOpen && yelpData && reviews &&
       <InfoModal
         infoModalOpen={infoModalOpen}
         setInfoModalOpen={setInfoModalOpen}
-        yelpData={yelpData}/>
+        yelpData={yelpData}
+        reviews={reviews}
+      />
       }
       <PostContainer>
         <h3 style={{

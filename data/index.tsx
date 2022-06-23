@@ -10,6 +10,7 @@ export interface PostObject {
   rating: number;
   username: string;
   caption: string;
+  saved: boolean;
 }
 
 // initial sample data no longer used

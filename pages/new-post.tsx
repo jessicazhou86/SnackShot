@@ -74,8 +74,9 @@ const NewPost: NextPage = () => {
       location: city + ', ' + state,
       photo_urls: photos,
       rating: rating,
-      // username: ,
+      username: 'jessicazhou',
       caption: caption,
+      saved: false,
     });
     router.push('/');
   }

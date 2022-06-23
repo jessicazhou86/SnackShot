@@ -45,8 +45,9 @@ interface PostObject {
   location: string;
   photo_urls: string[];
   rating: number;
-  // username: string;
+  username: string;
   caption: string;
+  saved: boolean;
 }
 
 interface FriendObject {
@@ -60,18 +61,19 @@ const Profile: NextPage = () => {
   const [modalInfo, setModalInfo] = useState({});
   const [friends, setFriends] = useState<FriendObject[]>([]);
 
+  const dbInstance = collection(db, 'my_posts');
+  const getMyPosts = () => {
+    getDocs(dbInstance)
+      .then((data) => {
+        let arr: any = data.docs.map((item) => {
+            return { ...item.data(), id: item.id }
+        });
+        let sorted = arr.sort((a,b) => (b.timestamp - a.timestamp));
+        setMyPosts(sorted);
+    })
+  }
+
   useEffect(() => {
-    const dbInstance = collection(db, 'my_posts');
-    const getMyPosts = () => {
-      getDocs(dbInstance)
-        .then((data) => {
-          let arr: any = data.docs.map((item) => {
-              return { ...item.data(), id: item.id }
-          });
-          let sorted = arr.sort((a,b) => (b.timestamp - a.timestamp));
-          setMyPosts(sorted);
-      })
-    }
     getMyPosts();
 
     const dbInstance2 = collection(db, 'friends');
@@ -87,20 +89,24 @@ const Profile: NextPage = () => {
     getFriends();
   }, [])
 
+  const viewSaved = () => {
+    let saved = myPosts.filter((post) => post.saved === true);
+    setMyPosts(saved);
+  }
+
   // sample user
   const user = {
-    user_id: 1,
     username: 'jessicazhou',
     profile_pic: "https://i.ibb.co/CwCCjKk/Screen-Shot-2022-06-20-at-7-36-25-PM.png",
-    friends: ['meowcakes', 'birdsrnotreal', 'cashmoney'],
-    saved_posts: [],
-    my_posts: posts
   }
 
   return (
     <>
     <ProfileBar>
-      <BarItem>
+      <BarItem
+        style={{cursor: "pointer"}}
+        onClick={getMyPosts}
+      >
         <Image
           src={user.profile_pic}
           alt="profile picture"
@@ -145,7 +151,10 @@ const Profile: NextPage = () => {
           </ul>
         </details>
       </BarItem>
-      <BarItem>
+      <BarItem
+        style={{cursor: "pointer"}}
+        onClick={viewSaved}
+      >
         <div><FaHeart/></div>
         <div>Saved</div>
       </BarItem>

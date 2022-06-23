@@ -13,6 +13,9 @@ import ReactStars from 'react-stars';
 import InfoModal from './InfoModal';
 import axios from 'axios';
 import { format, parseISO } from 'date-fns';
+import { doc, setDoc } from "firebase/firestore";
+import { db } from '../firebaseConfig.js';
+
 
 const PostContainer = styled.article`
   max-width: 35em;
@@ -36,7 +39,7 @@ const HeartButton = styled(ReactButton)`
   &:hover{
     color: #F57575;
   }
-  color: ${props => (props.liked ? ' #F57575' : 'none')}
+  color: ${props => (props.saved ? ' #F57575' : 'none')}
   `;
 
 export interface DataObject {
@@ -65,7 +68,6 @@ interface Props {
 
 const PostEntry = (props : Props) => {
   let {post, modalInfo} = props;
-  const [liked, setLiked] = useState<boolean>(false);
   const [infoModalOpen, setInfoModalOpen] = useState<boolean>(false);
   const [yelpData, setYelpData] = useState<DataObject | null>(null);
   const [reviews, setReviews] = useState<ReviewObject | null>(null);
@@ -90,6 +92,12 @@ const PostEntry = (props : Props) => {
       });
       setReviews(res.data.reviews.reviews);
     });
+  }
+
+  const updateSaved = async () => {
+    const newObj: PostObject = {...post};
+    newObj.saved = !post.saved;
+    await setDoc(doc(db, "my_posts", post.id), newObj);
   }
 
   return (
@@ -148,12 +156,14 @@ const PostEntry = (props : Props) => {
         ))}
           </Swiper>
         <HeartButton
-          liked={liked}
-          onClick={() => {setLiked((prev) => !prev)}}
+          saved={post.saved}
+          onClick={() => {
+            updateSaved();
+          }}
         ><FaHeart /></HeartButton>
         <ReactButton
         ><FaRegCommentDots /></ReactButton>
-        <h5>@jessicazhou</h5>
+        <h5>@{post.username}</h5>
         <span>{post.caption}</span>
       </PostContainer>
     </>

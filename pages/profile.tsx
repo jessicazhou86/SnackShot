@@ -3,10 +3,10 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import PhotoModal from '../components/PhotoModal';
-import posts from '../data';
 import { FaHeart } from 'react-icons/fa';
 import { app, db } from '../firebaseConfig.js';
 import { collection, getDocs } from 'firebase/firestore';
+import { PostObject } from '../data';
 
  const PostContainer = styled.article`
   display: flex;
@@ -37,20 +37,7 @@ text-align: center;
 margin: auto;
 `;
 
-interface PostObject {
-  id: number;
-  restaurant_name: string;
-  yelp_restaurant_id: string;
-  timestamp: string;
-  location: string;
-  photo_urls: string[];
-  rating: number;
-  username: string;
-  caption: string;
-  saved: boolean;
-}
-
-interface FriendObject {
+export interface FriendObject {
   id: number;
   username: string;
 }
@@ -58,7 +45,8 @@ interface FriendObject {
 const Profile: NextPage = () => {
   const [myPosts, setMyPosts] = useState<PostObject[]>([]);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [modalInfo, setModalInfo] = useState({});
+  // @ts-ignore
+  const [modalInfo, setModalInfo] = useState<PostObject>(null);
   const [friends, setFriends] = useState<FriendObject[]>([]);
 
   const dbInstance = collection(db, 'my_posts');
@@ -68,7 +56,7 @@ const Profile: NextPage = () => {
         let arr: any = data.docs.map((item) => {
             return { ...item.data(), id: item.id }
         });
-        let sorted = arr.sort((a,b) => (b.timestamp - a.timestamp));
+        let sorted = arr.sort((a: PostObject, b: PostObject) => (new Date(b.timestamp.toString()).valueOf() - new Date(a.timestamp.toString()).valueOf()));
         setMyPosts(sorted);
     })
   }
@@ -80,7 +68,7 @@ const Profile: NextPage = () => {
     const getFriends = () => {
       getDocs(dbInstance2)
         .then((data) => {
-          let arr = data.docs.map((item) => {
+          let arr: any = data.docs.map((item) => {
               return { ...item.data(), id: item.id }
           });
           setFriends(arr);
@@ -140,10 +128,11 @@ const Profile: NextPage = () => {
                   key={friend.id}
                 >
                   <a
-                    id={friend.id}
+                    id={friend.id.toString()}
                     style={{cursor: "pointer"}}
                     onClick={(e) => {
-                      console.log('friend id', e.target.getAttribute('id'))
+                      // @ts-ignore
+                      console.log('friend id', e.target.getAttribute('id'));
                     }}
                   >@{friend.username}</a>
                 </li>
@@ -170,12 +159,13 @@ const Profile: NextPage = () => {
                 height={600}
                 objectFit="cover"
                 style={{borderRadius: "2%"}}
-                id={post.id}
+                id={post.id.toString()}
                 onClick={(e) => {
+                  // @ts-ignore
                   let id =  e.target.getAttribute('id');
                   for (var i = 0; i < myPosts.length; i++) {
                     if (myPosts[i].id === id) {
-                      setModalInfo(myPosts[i]);
+                      setModalInfo({...myPosts[i]});
                       break;
                     }
                   }
@@ -190,6 +180,7 @@ const Profile: NextPage = () => {
         <PhotoModal
           setShowModal={setShowModal}
           showModal={showModal}
+          // @ts-ignore
           modalInfo={modalInfo}
         />: null}
     </>

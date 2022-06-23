@@ -1,10 +1,11 @@
 import { Dispatch, SetStateAction } from "react";
 import PostEntry from './PostEntry';
+import type {PostObject} from '../data';
 
 interface Props {
   showModal: boolean,
   setShowModal: Dispatch<SetStateAction<boolean>>;
-  modalInfo: object,
+  modalInfo: PostObject,
 }
 
 const PhotoModal = (props: Props) => {

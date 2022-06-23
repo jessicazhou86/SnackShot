@@ -1,7 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 
 export interface PostObject {
-  post_id: number;
+  id: number;
   restaurant_name: string;
   yelp_restaurant_id: string;
   timestamp: Timestamp;

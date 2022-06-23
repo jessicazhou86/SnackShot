@@ -39,7 +39,7 @@ const HeartButton = styled(ReactButton)`
   &:hover{
     color: #F57575;
   }
-  color: ${props => (props.saved ? ' #F57575' : 'none')}
+  color: ${props => (props.liked ? ' #F57575' : 'none')}
   `;
 
 export interface DataObject {
@@ -58,24 +58,37 @@ export interface ReviewObject {
   text: string,
   rating: number,
   time_created: string,
-  user: object,
+  user: {
+    name: string
+  },
 }
 
 interface Props {
   post: PostObject;
-  modalInfo: PostObject;
+}
+
+interface CategoryObj {
+  title: string
+}
+
+declare module 'react' {
+  interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
+    // extends React's HTMLAttributes
+    liked?: boolean;
+    post?: string;
+  }
 }
 
 const PostEntry = (props : Props) => {
-  let {post, modalInfo} = props;
+  let {post} = props;
   const [infoModalOpen, setInfoModalOpen] = useState<boolean>(false);
   const [yelpData, setYelpData] = useState<DataObject | null>(null);
-  const [reviews, setReviews] = useState<ReviewObject | null>(null);
+  const [reviews, setReviews] = useState<ReviewObject[] | null>(null);
   const [usePost, setUsePost] = useState<PostObject | null>(post);
 
   useEffect(() => {
-    setUsePost(post || modalInfo);
-  }, [post, modalInfo]);
+    setUsePost(post);
+  }, [post]);
 
   const getYelpData = () => {
     axios.get(`/api/info/${usePost?.yelp_restaurant_id}`)
@@ -87,7 +100,7 @@ const PostEntry = (props : Props) => {
         phone: info.display_phone,
         price: info.price,
         rating: info.rating,
-        categories: info.categories.map((each: object) => each.title),
+        categories: info.categories.map((each: CategoryObj) => each.title),
         review_count: info.review_count
       });
       setReviews(res.data.reviews.reviews);
@@ -95,9 +108,10 @@ const PostEntry = (props : Props) => {
   }
 
   const updateSaved = async () => {
+    // @ts-ignore
     const newObj: PostObject = {...post};
     newObj.saved = !post.saved;
-    await setDoc(doc(db, "my_posts", post.id), newObj);
+    await setDoc(doc(db, "my_posts", post.id.toString()), newObj);
   }
 
   return (
@@ -156,7 +170,7 @@ const PostEntry = (props : Props) => {
         ))}
           </Swiper>
         <HeartButton
-          saved={post.saved}
+          liked={post.saved}
           onClick={() => {
             updateSaved();
           }}

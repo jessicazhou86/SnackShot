@@ -2,7 +2,7 @@ import Nav from './Nav';
 import styles from '../styles/Home.module.css';
 import Head from 'next/head'
 
-export default function Layout({ children }) {
+export default function Layout({children}:{children:any}) {
   return (
     <>
       <Head >
@@ -10,7 +10,7 @@ export default function Layout({ children }) {
         <meta name="keywords" content="food, restaurants, recommendations, friends" />
         <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"></link>
         <link rel="preconnect" href="https://fonts.googleapis.com"></link>
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin></link>
+        <link rel="preconnect" href="https://fonts.gstatic.com"></link>
         <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Raleway&display=swap" rel="stylesheet"></link>
       </Head>
       <div className={styles.container}>

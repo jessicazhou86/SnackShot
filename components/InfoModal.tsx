@@ -1,5 +1,5 @@
-import DataObject from './PostEntry';
-import ReviewObject from './PostEntry';
+import type {DataObject} from './PostEntry';
+import type {ReviewObject} from './PostEntry';
 import ReactStars from 'react-stars';
 import styled from 'styled-components';
 import {formatDistanceToNow, parseISO} from 'date-fns';
@@ -21,7 +21,7 @@ padding: 1em;
 
 interface Props {
   infoModalOpen: boolean,
-  setInfoModalOpen: Dispatch<SetStateAction<boolean>>;
+  setInfoModalOpen: any,
   yelpData: DataObject,
   reviews: ReviewObject[],
 }
@@ -78,7 +78,7 @@ const PhotoModal = (props: Props) => {
         <div>
           <Reviews>
             <h4>Reviews</h4>
-            {reviews.map((review, i) => (
+            {reviews.map((review: ReviewObject, i) => (
               <Review key={i}>
                 <div>
                   {review.user.name}

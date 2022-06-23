@@ -2,10 +2,11 @@ import type { NextPage } from 'next'
 import Image from 'next/image'
 import PostEntry from '../components/PostEntry';
 import styled from 'styled-components';
-import posts from '../data';
 import { app, db } from '../firebaseConfig.js';
 import { collection, getDocs } from 'firebase/firestore';
 import { useState, useEffect } from 'react';
+import { PostObject } from '../data';
+import { nextWednesday } from 'date-fns';
 
 
 const PostsContainer = styled.div`
@@ -26,7 +27,7 @@ const Home: NextPage = () => {
           let arr: any = data.docs.map((item) => {
               return { ...item.data(), id: item.id }
           });
-          let sorted = arr.sort((a,b) => (b.timestamp - a.timestamp));
+          let sorted = arr.sort((a: PostObject, b: PostObject) => (new Date(b.timestamp.toString()).valueOf() - new Date(a.timestamp.toString()).valueOf()));
           setAllPosts(sorted);
       })
     }

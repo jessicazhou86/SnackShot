@@ -5,8 +5,9 @@ import axios from 'axios';
 import Image from 'next/image';
 import { MdLocationPin } from 'react-icons/md';
 import { FiSearch } from 'react-icons/fi';
-import { app, db } from '../src/firebase';
+import { app, db } from '../firebaseConfig.js';
 import { collection, addDoc } from 'firebase/firestore';
+import { useRouter } from 'next/router'
 
 
 const NewPost: NextPage = () => {
@@ -19,8 +20,13 @@ const NewPost: NextPage = () => {
   const [isMatch, setIsMatch] = useState<boolean>(false);
   const [address, setAddress] = useState<string[]>([]);
   const [dollarSigns, setDollarSigns] = useState<string>('');
+  const [yelpId, setYelpId] = useState<string>('');
+  const [city, setCity] = useState<string>('');
+  const [state, setStateLoc] = useState<string>('')
+  const [noMatch, setNoMatch] = useState<boolean>(false);
+  const router = useRouter()
 
-  const uploadImages = (e: { target: { files: (string | Blob)[]; }; }) => {
+  const uploadImages = (e: any) => {
     const bodyFormData = new FormData();
     bodyFormData.append('file', e.target.files[0]);
     bodyFormData.append('upload_preset', 's5a8nhsy');
@@ -33,27 +39,45 @@ const NewPost: NextPage = () => {
   };
 
   const getMatchingRestaurant = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+    setIsMatch(false)
+    setNoMatch(false);
     e.preventDefault();
     let newName = restaurantName.split(' ').join('-');
     let newLocation = location.split(' ').join('-');
     axios.get(`/api/matching/${newName}/${newLocation}`)
     .then((res) => {
       const match = res.data.businesses[0];
-      setRestaurant(match.name);
-      setAddress(match.location.display_address);
-      setDollarSigns(match.price);
-      setIsMatch(true);
-    });
+      if (match) {
+        setRestaurant(match.name);
+        setAddress(match.location.display_address);
+        setDollarSigns(match.price);
+        setIsMatch(true);
+        setYelpId(match.id);
+        setCity(match.location.city);
+        setStateLoc(match.location.state);
+      } else {
+        setNoMatch(true);
+      }
+    })
+    .catch((err) => setNoMatch(true));
   }
 
-  const dbInstance = collection(db, 'posts');
+  const dbInstance = collection(db, 'my_posts');
 
-  const postReview = () => {
-    // send info to DB w/ timestamp
+  const postReview = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+    console.log('sending')
+    e.preventDefault();
     addDoc(dbInstance, {
-      time: new Date(),
-
-    })
+      restaurant_name: restaurant,
+      yelp_restaurant_id: yelpId,
+      timestamp: new Date(),
+      location: city + ', ' + state,
+      photo_urls: photos,
+      rating: rating,
+      // username: ,
+      caption: caption,
+    });
+    router.push('/');
   }
 
   return (
@@ -98,6 +122,9 @@ const NewPost: NextPage = () => {
           <strong><MdLocationPin /> {restaurant} {dollarSigns}</strong>
           <div> {address.map((each, i) => <div key={i}>{each}</div>)}</div>
         </div>}
+      {noMatch &&
+        <div style={{border: "solid grey 1px", padding: ".5em"}}>No restaurants that match your search
+      </div>}
       </form>
       <form>
         <div style={{padding: "20px 0"}}>
@@ -115,8 +142,9 @@ const NewPost: NextPage = () => {
             type="file"
             id="file"
             name="file"
-            accept="/jpeg, /png"
+            accept="image/*"
             multiple
+            required
             onChange={(e) => {uploadImages(e)}}
           ></input>
         </label>
@@ -146,7 +174,7 @@ const NewPost: NextPage = () => {
           ></input>
         </label>
 
-        <button onClick={postReview}>Post</button>
+        <button type="submit" onClick={(e) => postReview(e)}>Post</button>
       </form>
     </article>
   )

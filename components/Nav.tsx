@@ -4,21 +4,19 @@ import { BsFillPersonFill } from 'react-icons/bs';
 import Link from 'next/link';
 import styled from 'styled-components';
 
-const NavBar = styled.nav`
-position: fixed;
-z-index: 99;
-width: 100%;
-background-color: #090B0D;
-height: 5.5em;
-padding: 1em;
-float: left;#
-top: 0;
-left: 0;
-`;
-
 const Nav = () => {
   return (
-    <NavBar>
+    <nav style={{
+      position: "fixed",
+      zIndex: "99",
+      width: "100%",
+      backgroundColor: "#0E151B",
+      height: "5.5em",
+      padding: "1em",
+      float: "left",
+      top: "0",
+      left: "0"
+    }}>
       <ul>
         <li><h2 style={{margin: "1em"}}>SnackShot</h2></li>
       </ul>
@@ -33,7 +31,7 @@ const Nav = () => {
          <li><a href="#" role="button"><BsFillPersonFill size={30}/></a></li>
         </Link>
       </ul>
-    </NavBar>
+    </nav>
   )
 }
 

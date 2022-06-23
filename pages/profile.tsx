@@ -1,11 +1,12 @@
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PhotoModal from '../components/PhotoModal';
 import posts from '../data';
 import { FaHeart } from 'react-icons/fa';
-
+import { app, db } from '../firebaseConfig.js';
+import { collection, getDocs } from 'firebase/firestore';
 
  const PostContainer = styled.article`
   display: flex;
@@ -36,10 +37,54 @@ text-align: center;
 margin: auto;
 `;
 
-const Profile: NextPage = () => {
+interface PostObject {
+  id: number;
+  restaurant_name: string;
+  yelp_restaurant_id: string;
+  timestamp: string;
+  location: string;
+  photo_urls: string[];
+  rating: number;
+  // username: string;
+  caption: string;
+}
 
-  const [showModal, setShowModal] = useState(false);
+interface FriendObject {
+  id: number;
+  username: string;
+}
+
+const Profile: NextPage = () => {
+  const [myPosts, setMyPosts] = useState<PostObject[]>([]);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [modalInfo, setModalInfo] = useState({});
+  const [friends, setFriends] = useState<FriendObject[]>([]);
+
+  useEffect(() => {
+    const dbInstance = collection(db, 'my_posts');
+    const getMyPosts = () => {
+      getDocs(dbInstance)
+        .then((data) => {
+          let arr: any = data.docs.map((item) => {
+              return { ...item.data(), id: item.id }
+          });
+          setMyPosts(arr);
+      })
+    }
+    getMyPosts();
+
+    const dbInstance2 = collection(db, 'friends');
+    const getFriends = () => {
+      getDocs(dbInstance2)
+        .then((data) => {
+          let arr = data.docs.map((item) => {
+              return { ...item.data(), id: item.id }
+          });
+          setFriends(arr);
+      })
+    }
+    getFriends();
+  }, [])
 
   // sample user
   const user = {
@@ -66,11 +111,11 @@ const Profile: NextPage = () => {
         <div>@{user.username}</div>
       </BarItem>
       <BarItem>
-        <div><strong>{posts.length}</strong></div>
+        <div><strong>{myPosts.length}</strong></div>
         <div>Posts</div>
       </BarItem>
       <BarItem style={{marginTop: "2.6em"}}>
-        <div><strong>{user.friends.length}</strong></div>
+        <div><strong>{friends.length}</strong></div>
         <details role="list">
           <summary
             aria-haspopup="listbox"
@@ -82,7 +127,20 @@ const Profile: NextPage = () => {
               marginLeft: "1.5em"
             }}>Friends</summary>
           <ul role="listbox">
-            {user.friends.map((friend, i) => <li key={i}><a>@{friend}</a></li>)}
+            {friends.length &&
+              friends.map((friend) =>
+                <li
+                  key={friend.id}
+                >
+                  <a
+                    id={friend.id}
+                    style={{cursor: "pointer"}}
+                    onClick={(e) => {
+                      console.log('friend id', e.target.getAttribute('id'))
+                    }}
+                  >@{friend.username}</a>
+                </li>
+              )}
           </ul>
         </details>
       </BarItem>
@@ -92,22 +150,22 @@ const Profile: NextPage = () => {
       </BarItem>
     </ProfileBar>
       <PostContainer >
-        {user.my_posts.map((post) => {
+        {myPosts.length!== 0 && myPosts.map((post) => {
           return (
-            <ImagePost key={post.post_id}>
+            <ImagePost key={post.id}>
               <Image
-                src={post.photo_urls[0]}
+                src={post?.photo_urls[0]}
                 alt="sample photo"
                 width={600}
                 height={600}
                 objectFit="cover"
                 style={{borderRadius: "2%"}}
-                id={post.post_id}
+                id={post.id}
                 onClick={(e) => {
-                  let id =  Number(e.target.getAttribute('id'));
-                  for (var i = 0; i < user.my_posts.length; i++) {
-                    if (user.my_posts[i].post_id === id) {
-                      setModalInfo(user.my_posts[i]);
+                  let id =  e.target.getAttribute('id');
+                  for (var i = 0; i < myPosts.length; i++) {
+                    if (myPosts[i].id === id) {
+                      setModalInfo(myPosts[i]);
                       break;
                     }
                   }

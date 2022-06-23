@@ -7,17 +7,19 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper";
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from '../styles/Stars.module.css';
 import ReactStars from 'react-stars';
 import InfoModal from './InfoModal';
 import axios from 'axios';
+import { format, parseISO } from 'date-fns';
 
 const PostContainer = styled.article`
   max-width: 35em;
   margin: 2em auto;
   flex: 50%;
   padding: 1.5em;
+  overflow: visible;
   `;
 
 const ReactButton = styled.span`
@@ -65,13 +67,16 @@ const PostEntry = (props : Props) => {
   let {post, modalInfo} = props;
   const [liked, setLiked] = useState<boolean>(false);
   const [infoModalOpen, setInfoModalOpen] = useState<boolean>(false);
-  const [yelpData, setYelpData] = useState<DataObject>(null);
-  const [reviews, setReviews] = useState(null);
+  const [yelpData, setYelpData] = useState<DataObject | null>(null);
+  const [reviews, setReviews] = useState<ReviewObject | null>(null);
+  const [usePost, setUsePost] = useState<PostObject | null>(post);
 
-  post = post || modalInfo;
+  useEffect(() => {
+    setUsePost(post || modalInfo);
+  }, [post, modalInfo]);
 
   const getYelpData = () => {
-    axios.get(`/api/info/${post.yelp_restaurant_id}`)
+    axios.get(`/api/info/${usePost?.yelp_restaurant_id}`)
     .then((res) => {
       let info = res.data.info;
       setYelpData({
@@ -102,6 +107,7 @@ const PostEntry = (props : Props) => {
           margin: ".5em",
           cursor: "pointer"
           }}
+         post={post.yelp_restaurant_id}
          onClick={() => {
           setInfoModalOpen(true);
           getYelpData();
@@ -120,7 +126,8 @@ const PostEntry = (props : Props) => {
           textAlign: "right",
           padding: "0 1em"
         }}>
-          <MdLocationPin /> {post.location}, {post.timestamp}
+          {/* need to come fix this */}
+          <MdLocationPin /> {post.location}, {format(new Date(), "PPp")}
         </div>
         <Swiper
           navigation={true}
@@ -128,7 +135,7 @@ const PostEntry = (props : Props) => {
           speed={200}
           spaceBetween={150}
         >
-        {post.photo_urls.map((url : string, i : number) => (
+        {post?.photo_urls.map((url : string, i : number) => (
           <SwiperSlide key={i}>
             <Image
               src={url}
@@ -147,7 +154,7 @@ const PostEntry = (props : Props) => {
         ><FaHeart /></HeartButton>
         <ReactButton
         ><FaRegCommentDots /></ReactButton>
-        <h5>@{post.username}</h5>
+        <h5>@jessicazhou</h5>
         <span>{post.caption}</span>
       </PostContainer>
     </>

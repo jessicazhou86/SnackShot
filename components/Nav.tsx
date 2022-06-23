@@ -18,17 +18,17 @@ const Nav = () => {
       left: "0"
     }}>
       <ul>
-        <li><h2 style={{margin: "1em"}}>SnackShot</h2></li>
+        <li><h2 style={{margin: "1em", fontFamily: 'Chewy', fontSize: "2em"}}>🤳🏼 SnackShot 🍣</h2></li>
       </ul>
       <ul>
         <Link href='/'>
-         <li><a href="#" role="button"><AiFillHome size={30}/></a></li>
+         <li><a href="#" role="button" style={{backgroundColor: "#596B78", border: "none"}}><AiFillHome size={30}/></a></li>
         </Link>
         <Link href='/new-post'>
-         <li><a href="#" role="button"><MdPhotoCamera size={30}/></a></li>
+         <li><a href="#" role="button" style={{backgroundColor: "#596B78", border: "none"}}><MdPhotoCamera size={30}/></a></li>
         </Link>
         <Link href='/profile'>
-         <li><a href="#" role="button"><BsFillPersonFill size={30}/></a></li>
+         <li><a href="#" role="button" style={{backgroundColor: "#596B78", border: "none"}}><BsFillPersonFill size={30}/></a></li>
         </Link>
       </ul>
     </nav>

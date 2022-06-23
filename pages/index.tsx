@@ -26,11 +26,8 @@ const Home: NextPage = () => {
           let arr: any = data.docs.map((item) => {
               return { ...item.data(), id: item.id }
           });
-          let reversed = [];
-          for (var i = arr.length-1; i >= 0; i--) {
-            reversed.push(arr[i]);
-          }
-          setAllPosts(reversed);
+          let sorted = arr.sort((a,b) => (b.timestamp - a.timestamp));
+          setAllPosts(sorted);
       })
     }
     getPosts();

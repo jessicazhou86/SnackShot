@@ -105,7 +105,7 @@ const PostEntry = (props : Props) => {
       <PostContainer>
         <h3 style={{
           margin: ".5em",
-          cursor: "pointer"
+          cursor: "pointer",
           }}
          post={post.yelp_restaurant_id}
          onClick={() => {
@@ -126,8 +126,7 @@ const PostEntry = (props : Props) => {
           textAlign: "right",
           padding: "0 1em"
         }}>
-          {/* need to come fix this */}
-          <MdLocationPin /> {post.location}, {format(new Date(), "PPp")}
+          <MdLocationPin /> {post.location} | {format(post.timestamp.seconds*1000, "PPp")}
         </div>
         <Swiper
           navigation={true}

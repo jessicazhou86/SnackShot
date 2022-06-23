@@ -68,7 +68,8 @@ const Profile: NextPage = () => {
           let arr: any = data.docs.map((item) => {
               return { ...item.data(), id: item.id }
           });
-          setMyPosts(arr);
+          let sorted = arr.sort((a,b) => (b.timestamp - a.timestamp));
+          setMyPosts(sorted);
       })
     }
     getMyPosts();

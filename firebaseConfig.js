@@ -13,22 +13,13 @@ import { getFirestore } from "firebase/firestore"
 // })
 
 // Your web app's Firebase configuration
-// const firebaseConfig = {
-//   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-//   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-//   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-//   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-//   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-//   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
-// };
-
 const firebaseConfig = {
-  apiKey: "AIzaSyBbtRMNtTzdEpIKmXHPQMPy8LrwvO5ppf8",
-  authDomain: "snackshot-7144b.firebaseapp.com",
-  projectId: "snackshot-7144b",
-  storageBucket: "snackshot-7144b.appspot.com",
-  messagingSenderId: "588798460475",
-  appId: "1:588798460475:web:ca71d4447cfb84b01e921e"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 };
 
 // Initialize Firebase

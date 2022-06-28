@@ -27,7 +27,7 @@ const Home: NextPage = () => {
           let arr: any = data.docs.map((item) => {
               return { ...item.data(), id: item.id }
           });
-          let sorted = arr.sort((a: PostObject, b: PostObject) => (new Date(b.timestamp.toString()).valueOf() - new Date(a.timestamp.toString()).valueOf()));
+          let sorted = arr.sort((a: PostObject, b: PostObject) => (b.timestamp.seconds - a.timestamp.seconds));
           setAllPosts(sorted);
       })
     }

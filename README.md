@@ -1,38 +1,76 @@
-<<<<<<< HEAD
+# SnackShot - Social Media for Foodies
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## Overview
+Full stack MVP application that allows users to share restaurant recommendations with friends via photos + access external Yelp reviews.
 
-First, run the development server:
+<img src="./gifs/Home.gif" alt="Home page GIF" width=70% height=auto>
 
+## Table of Contents
+- [Description](#description)
+- [Installation](#installation-and-setup)
+- [Technologies](#technologies)
+- [Project Details](#project-details)
+- [Contributor](#contributor)
+
+## Description
+I wanted to create an environment where food enthusiasts could share their most recent restaurant discoveries with friends and get inspiration for new places to explore -- a mix between Yelp and Instagram, as I like to say. 
+
+---
+
+## Installation and Setup
+1. Fork and clone the repo and navigate to the root directory.
+
+2. To install dependencies:
+```
+npm install
+```
+
+3. To run the development server:
 ```bash
 npm run dev
 # or
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open http://localhost:3000 in your browser
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+5. Firebase setup: 
+Create a New Project and add the information to a .env
+```json
+"NEXT_PUBLIC_FIREBASE_API_KEY"="API_KEY"
+"NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN"="AUTH_DOMAIN"
+"NEXT_PUBLIC_FIREBASE_PROJECT_ID"="PROJECT_ID"
+"NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET"="STORAGE_BUCKET"
+"NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID"="SENDER_ID"
+"NEXT_PUBLIC_FIREBASE_APP_ID"="APP_ID"
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+---
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Technologies
+![image](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![image](https://img.shields.io/badge/-React.Js-61DAFB?logo=react&logoColor=white&style=for-the-badge)
+![image](https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![image](https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black)
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Project Details
+### Home page
+>This page displays posts from all the user's friends. It allows users to see Yelp data and save posts for future use, and it features photo carousels. 
+<img src="./gifs/Home.gif" alt="Home page GIF" width=70% height=auto>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### New post
+>This section allows the user to upload a new post to his or her feed. It has a search mechanism that finds a matching restaurant based on name and location and allows photo uploads and rating stars.  
+<img src="./gifs/New.gif" alt="New post GIF" width=70% height=auto>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Profile page
+>This is the user's personal page, where the previous posts, friend list, and saved posts are displayed.
+<img src="./gifs/Profile.gif" alt="Profile page GIF" width=70% height=auto>
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-=======
-# SnackShot
->>>>>>> 1be81368a114162ec770ba69b1dde494a1f561e3
+### Contributor
+- [Jessica Zhou](https://github.com/jessicazhou86)

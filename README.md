@@ -50,10 +50,13 @@ Create a New Project and add the information to a .env
 ---
 
 ## Technologies
-![image](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
-![image](https://img.shields.io/badge/-React.Js-61DAFB?logo=react&logoColor=white&style=for-the-badge)
-![image](https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![image](https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black)
+- [Next.js](https://nextjs.org/docs)
+- [React](https://reactjs.org/)
+- [Typescript](https://devdocs.io/typescript/)
+- [Firebase](https://firebase.google.com/docs)
+- [Vercel](https://vercel.com/docs)
+- [Styled Components](https://styled-components.com/docs/)
+- [Pico CSS](https://picocss.com/docs/)
 
 ---
 
